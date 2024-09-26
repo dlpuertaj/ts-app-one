@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>My Electron App</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+        <textarea id="display-area" readonly></textarea>
+
+        <button id="action-button">Click</button>
+
+        <script>
+            const displeyArea = document.getElementById('displey-area');
+            const inputBox = document.getElementById('input-box');
+            const button = document.getElementById('action-button');
+
+            button.addEventListener('click', () =>{
+                alert('Button clicked!');
+            });
+        </script>
+    </body>
+</html>
