@@ -36,3 +36,13 @@ body, html {
 #action-button:hover {
   background-color: #45a049;
 }
+
+#button-container {
+  margin: 20px 0;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
