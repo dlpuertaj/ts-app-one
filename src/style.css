@@ -23,10 +23,16 @@ body, html {
   font-size: 16px;
 }
 
-/* Text input (bottom part) */
-#input-box {
-  padding: 10px;
-  border: 1px solid #ccc;
+#action-button{
+  padding: 15px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
   font-size: 16px;
+  cursor: pointer;
   width: 100%;
+}
+/* Add hover effect for the button */
+#action-button:hover {
+  background-color: #45a049;
 }
