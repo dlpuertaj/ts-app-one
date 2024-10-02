@@ -1,27 +1,22 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { DataSource } from 'typeorm';
+import { AppDataSource } from './database/data_source';
 import { Record } from './entities/Record';
 import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
 
 
-//Setup DataSource
-const AppDataSource = new DataSource({
-  type: 'sqlite',
-  database: './db.sqlite',
-  entities: [Record],
-  synchronize: true,
-});
-
 const createWindow = () => {
-	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
-		webPreferences:{
-			nodeIntegration: true
-		},
-	});
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'), 
+            contextIsolation: true, 
+            nodeIntegration: false, 
+        },
+    });
+
 	mainWindow.loadFile('src/index.html');
 
 	mainWindow.on('closed', () =>{
@@ -31,10 +26,6 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-	AppDataSource.initialize().then(() => {
-		console.log('Database Connected');
-	}).catch((error) => console.log('Error during Data Source initialization', error));
-
 	createWindow();
 });
 
@@ -52,9 +43,16 @@ app.on('activate', () => {
 
 
 ipcMain.handle('get-records', async () => {
-  const userRepository = AppDataSource.getRepository(Record);
-  const records = await userRepository.find();
-  return records;
+	console.info(`Will try to fetche records from database...`);
+	try{
+  		const userRepository = AppDataSource.getRepository(Record);
+  		const records = await userRepository.find();
+		console.info(`${records.length} records fetched successfully`);
+  		return records;
+	}catch(error){
+		console.error('Error while fetching records');
+		return [];
+	}
 });
 
 ipcMain.handle('add-record', async (event, recordData) => {

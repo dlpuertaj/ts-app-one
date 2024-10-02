@@ -1,4 +1,6 @@
 "use strict";
+
+
 const displayArea = document.getElementById('display-area');
 const buttonContainer = document.getElementById('button-container');
 const button = document.getElementById('add-button');
@@ -29,3 +31,24 @@ function genericButtonEventListener(customString){
 }
 
 button.addEventListener('click', addNewButton);
+
+window.addEventListener('DOMContentLoaded', async () => {
+    try{
+        console.info(`Fetching records using ElectronAPI...`);
+        const records = await window.electronAPI.getRecords();
+        console.info(`${records.length} records found`);
+        displayRecords(records);
+    }catch(error){
+        console.error('Error while calling electronAPI to fetch records'. error);
+    }
+});
+
+function displayRecords(records){
+    if(records.lenghth === 0){
+        displayArea.value = 'No records found.\n';
+    } else {
+        records.forEach(record => {
+           displayArea.value += `${record.dateTime} : ${record.text}\n`; 
+        });
+    }
+}
