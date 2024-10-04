@@ -14,18 +14,6 @@ const AppDataSource = new DataSource({
 AppDataSource.initialize()
     .then(async () => {
         console.log('SQLite Database Connected!');
-        
-        const recordRepository = AppDataSource.getRepository(Record);
-        let record = new Record();
-
-        record.dateTime = '10022024';
-        record.text = 'New Record';
-
-
-        await recordRepository.save(record);
-
-        console.log('Record inserted successfully!')
-
     })
     .catch((error) => console.log('Error while initializing the database: ', error));
 

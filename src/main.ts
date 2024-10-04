@@ -55,11 +55,12 @@ ipcMain.handle('get-records', async () => {
 	}
 });
 
-ipcMain.handle('add-record', async (event, recordData) => {
+ipcMain.handle('add-record', async (event, dateTime, text) => {
   const recordRepository = AppDataSource.getRepository(Record);
   const record = new Record();
-  record.dateTime = recordData.dateTime;
-  record.text = recordData.text;
+    console.log(`Storing ${dateTime} and ${text}`);
+  record.dateTime = dateTime;
+  record.text = text;
   await recordRepository.save(record);
   return record;
 });

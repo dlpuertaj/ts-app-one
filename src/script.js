@@ -26,8 +26,31 @@ function addNewButton(){
 }
 
 function genericButtonEventListener(customString){
-    console.log(`Button ${customString} clicked! adding log in text area`);
-    displayArea.value += `Button ${customString} was clicked\n`;
+
+    const newRecord = createRecordData(customString);
+    console.log('Storing new record in the database');
+    
+    console.log(`Button ${customString} clicked! adding record in text area`);
+    displayArea.value += `${newRecord[0]} - ${newRecord[1]}`;
+
+
+    window.electronAPI.addRecord(newRecord[0],newRecord[1]);
+}
+
+function createRecordData(customString){
+    const date = new Date();
+    const dateTimeString = `${String(date.getDate()).padStart(2,'0')}-` +  // Use getDate() instead of getDay()
+                       `${String(date.getMonth() + 1).padStart(2,'0')}-` +  // Months are 0-based, so add 1
+                       `${date.getFullYear()} - ` + 
+                       `${String(date.getHours()).padStart(2, '0')}:` + 
+                       `${String(date.getMinutes()).padStart(2, '0')}:` + 
+                       `${String(date.getSeconds()).padStart(2, '0')}`;
+    console.log(`Storing ${dateTimeString} and ${customString}`);
+    let recordData = [];
+    recordData.push(dateTimeString);
+    recordData.push(`Button ${customString} \n`);
+        
+    return recordData;
 }
 
 button.addEventListener('click', addNewButton);
