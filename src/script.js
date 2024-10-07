@@ -39,8 +39,8 @@ function genericButtonEventListener(customString){
 
 function createRecordData(customString){
     const date = new Date();
-    const dateTimeString = `${String(date.getDate()).padStart(2,'0')}-` +  // Use getDate() instead of getDay()
-                       `${String(date.getMonth() + 1).padStart(2,'0')}-` +  // Months are 0-based, so add 1
+    const dateTimeString = `${String(date.getDate()).padStart(2,'0')}/` +  // Use getDate() instead of getDay()
+                       `${String(date.getMonth() + 1).padStart(2,'0')}/` +  // Months are 0-based, so add 1
                        `${date.getFullYear()} - ` + 
                        `${String(date.getHours()).padStart(2, '0')}:` + 
                        `${String(date.getMinutes()).padStart(2, '0')}:` + 
@@ -71,7 +71,7 @@ function displayRecords(records){
         displayArea.value = 'No records found.\n';
     } else {
         records.forEach(record => {
-           displayArea.value += `${record.dateTime} : ${record.text}\n`; 
+           displayArea.value += `${record.dateTime} : ${record.text}`; 
         });
     }
 }
