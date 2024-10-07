@@ -4,6 +4,7 @@
 const displayArea = document.getElementById('display-area');
 const buttonContainer = document.getElementById('button-container');
 const button = document.getElementById('add-button');
+const table = document.getElementById('records-table');
 
 
 let buttonCount = 0;
@@ -60,7 +61,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.info(`Fetching records using ElectronAPI...`);
         const records = await window.electronAPI.getRecords();
         console.info(`${records.length} records found`);
-        displayRecords(records);
+        displayRecordsInTable(records);
     }catch(error){
         console.error('Error while calling electronAPI to fetch records'. error);
     }
@@ -75,3 +76,23 @@ function displayRecords(records){
         });
     }
 }
+function displayRecordsInTable(records){
+    if(records.lenghth === 0){
+        displayArea.value = 'No records found.\n';
+    } else {
+        console.log("Displaying in table...");
+        records.forEach(record => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+            <td>${record.dateTime}</td>
+            <td>${record.text}</td>`;
+
+            row.addEventListener("click", () => {
+                console.log(`Record: ${record.dateTime} - ${record.text}`);
+            });
+            table.appendChild(row);
+        });
+    }
+}
+

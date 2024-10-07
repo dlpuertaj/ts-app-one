@@ -7,8 +7,8 @@ export class Record{
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
-    dateTime!: string;
+    @Column({type:'datetime'})
+    dateTime!: Date;
 
     @Column()
     text!: string;

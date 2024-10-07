@@ -46,3 +46,19 @@ button {
   padding: 10px;
   font-size: 16px;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures that columns are of fixed width */
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid black;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
