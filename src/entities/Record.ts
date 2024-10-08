@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 
 @Entity()
@@ -7,7 +7,7 @@ export class Record{
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({type:'datetime'})
+    @CreateDateColumn({type:'datetime'})
     dateTime!: Date;
 
     @Column()

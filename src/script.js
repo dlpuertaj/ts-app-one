@@ -28,30 +28,20 @@ function addNewButton(){
 
 function genericButtonEventListener(customString){
 
-    const newRecord = createRecordData(customString);
-    console.log('Storing new record in the database');
-    
-    console.log(`Button ${customString} clicked! adding record in text area`);
-    displayArea.value += `${newRecord[0]} - ${newRecord[1]}`;
-
-
-    window.electronAPI.addRecord(newRecord[0],newRecord[1]);
-}
-
-function createRecordData(customString){
     const date = new Date();
-    const dateTimeString = `${String(date.getDate()).padStart(2,'0')}/` +  // Use getDate() instead of getDay()
-                       `${String(date.getMonth() + 1).padStart(2,'0')}/` +  // Months are 0-based, so add 1
-                       `${date.getFullYear()} - ` + 
-                       `${String(date.getHours()).padStart(2, '0')}:` + 
-                       `${String(date.getMinutes()).padStart(2, '0')}:` + 
-                       `${String(date.getSeconds()).padStart(2, '0')}`;
-    console.log(`Storing ${dateTimeString} and ${customString}`);
-    let recordData = [];
-    recordData.push(dateTimeString);
-    recordData.push(`Button ${customString} \n`);
-        
-    return recordData;
+    console.log(`Button ${customString} clicked! will show and save ${date} and ${customString}`);
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+    <td>${date}</td>
+    <td>${customString}</td>`;
+
+    row.addEventListener("click", () => {
+        console.log(`Record: ${date} - ${customString}`);
+    });
+    table.appendChild(row);
+
+    window.electronAPI.addRecord(date,customString);
 }
 
 button.addEventListener('click', addNewButton);
