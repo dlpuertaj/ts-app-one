@@ -4,6 +4,7 @@ import { Record } from './entities/Record';
 import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
+let popup: BrowserWindow | null;
 
 
 const createWindow = () => {
@@ -18,11 +19,32 @@ const createWindow = () => {
     });
 
 	mainWindow.loadFile('src/index.html');
-
-	mainWindow.on('closed', () =>{
+		mainWindow.on('closed', () =>{
 		mainWindow = null;
 	} );
 
+};
+
+const showGenericPopup = () => {
+	popup = new BrowserWindow({
+		width: 400,
+        height: 400,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'), 
+            contextIsolation: true, 
+            nodeIntegration: false, 
+        },
+	});
+
+	popup.loadFile('src/popup.html');
+
+	popup.once('ready-to-show', () => {
+		popup?.show();
+	});
+
+	popup.on('closed', () =>{
+		popup = null;
+	} );
 };
 
 app.whenReady().then(() => {
@@ -64,3 +86,13 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   await recordRepository.save(record);
   return record;
 });
+
+ipcMain.on('open-popup-window', () => {
+	showGenericPopup();
+});
+
+export function openPopup(){
+	if(!popup){
+		showGenericPopup();
+	}
+}
