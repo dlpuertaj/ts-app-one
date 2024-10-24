@@ -3,6 +3,8 @@
 
 const saveButton = document.getElementById('save-button');
 const deleteButton = document.getElementById('delete-button');
+const dateTextField = document.getElementById('date-text-field');
+const dataTextField = document.getElementById('delete-button');
 
 
 
@@ -19,43 +21,22 @@ function deleteButtonEventListener() {
 }
 
 
-button.addEventListener('click', addNewButton);
+saveButton.addEventListener('click', saveButtonEventListener);
+deleteButton.addEventListener('click', deleteButtonEventListener);
 
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         console.info(`Fetching records using ElectronAPI...`);
-        const records = await window.electronAPI.getRecords();
+        const records = await window.electronAPI.getRecord(recordId);
         console.info(`${records.length} records found`);
-        displayRecordsInTable(records);
+        displayRecordsInPopup(record);
     } catch (error) {
         console.error('Error while calling electronAPI to fetch records'.error);
     }
 });
 
-function displayRecords(records) {
-    if (records.lenghth === 0) {
-        displayArea.value = 'No records found.\n';
-    } else {
-        records.forEach(record => {
-            displayArea.value += `${record.dateTime} : ${record.text}`;
-        });
-    }
-}
-function displayRecordsInTable(records) {
-    console.log("Displaying in table...");
-    records.forEach(record => {
-        const row = document.createElement("tr");
-
-        row.className = 'open-popup';
-
-        row.innerHTML = `
-            <td>${record.dateTime}</td>
-            <td>${record.text}</td>`;
-
-        row.addEventListener("click", () => {
-            console.log(`Record: ${record.dateTime} - ${record.text}`);
-        });
-        table.appendChild(row);
-    });
+function displayRecord(record) {
+    displayArea.value = 'No records found.\n';
+    displayArea.value += `${record.dateTime} : ${record.text}`;
 }
 
