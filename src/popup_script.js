@@ -2,14 +2,14 @@
 
 
 const saveButton = document.getElementById('save-button');
-const deleteButton = document.getElementById('delete-button');
-const dateTextField = document.getElementById('date-text-field');
-const dataTextField = document.getElementById('delete-button');
+//const deleteButton = document.getElementById('delete-button');
+const dateTextField = document.getElementById('popup-input-date');
+const dataTextField = document.getElementById('popup-input-text');
 
 
 
 function saveButtonEventListener() {
-
+    // get the data from the popup
     const date = new Date();
     console.log(`Button ${customString} clicked! will show and save ${date} and ${customString}`);
 
@@ -17,7 +17,7 @@ function saveButtonEventListener() {
 }
 
 function deleteButtonEventListener() {
-    window.electronAPI.addRecord(date, customString);
+    window.electronAPI.deleteRecord(recordId); //TODO: Pending implementation 
 }
 
 

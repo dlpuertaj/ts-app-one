@@ -40,8 +40,7 @@ function genericButtonEventListener(customString) {
     row.className = 'open-popup';
 
     row.addEventListener("click", () => {
-        console.log(`Showing Record: ${date} - ${customString}`);
-        window.electronAPI.openPopup();
+        window.electronAPI.openPopup(date,customString);
     });
     table.appendChild(row);
 
@@ -61,17 +60,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function displayRecords(records) {
-    if (records.lenghth === 0) {
-        displayArea.value = 'No records found.\n';
-    } else {
-        records.forEach(record => {
-            displayArea.value += `${record.dateTime} : ${record.text}`;
-        });
-    }
-}
 function displayRecordsInTable(records) {
-    console.log("Displaying in table...");
+    console.log("Displaying records in table...");
     records.forEach(record => {
         const row = document.createElement("tr");
 
@@ -82,7 +72,7 @@ function displayRecordsInTable(records) {
             <td>${record.text}</td>`;
 
         row.addEventListener("click", () => {
-            console.log(`Record: ${record.dateTime} - ${record.text}`);
+            window.electronAPI.openPopup(date,customString);
         });
         table.appendChild(row);
     });
