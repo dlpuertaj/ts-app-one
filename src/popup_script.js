@@ -11,32 +11,31 @@ const dataTextField = document.getElementById('popup-input-text');
 function saveButtonEventListener() {
     // get the data from the popup
     const date = new Date();
-    console.log(`Button ${customString} clicked! will show and save ${date} and ${customString}`);
+    console.log(`Saving [ ${date} , ${customString}]`);
 
     window.electronAPI.addRecord(date, customString);
 }
 
-function deleteButtonEventListener() {
-    window.electronAPI.deleteRecord(recordId); //TODO: Pending implementation 
-}
+//function deleteButtonEventListener() {
+    //window.electronAPI.deleteRecord(recordId); //TODO: Pending implementation 
+//}
 
 
 saveButton.addEventListener('click', saveButtonEventListener);
-deleteButton.addEventListener('click', deleteButtonEventListener);
-
-window.addEventListener('DOMContentLoaded', async () => {
-    try {
-        console.info(`Fetching records using ElectronAPI...`);
-        const records = await window.electronAPI.getRecord(recordId);
-        console.info(`${records.length} records found`);
-        displayRecordsInPopup(record);
-    } catch (error) {
-        console.error('Error while calling electronAPI to fetch records'.error);
-    }
+//deleteButton.addEventListener('click', deleteButtonEventListener);
+// Listen for data sent from the main process
+window.electronAPI.onOpenPopupData((event, { date, text }) => {
+    displayRecord(date, text);
 });
 
-function displayRecord(record) {
-    displayArea.value = 'No records found.\n';
-    displayArea.value += `${record.dateTime} : ${record.text}`;
+// Function to display the received record data
+function displayRecord(date, text) {
+    dateTextField.value = date;
+    dataTextField.value = text;
 }
+
+// Ensure that displayRecord runs when the content is loaded
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('Popup loaded and ready to display data');
+});
 

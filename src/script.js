@@ -42,6 +42,7 @@ function genericButtonEventListener(customString) {
     row.addEventListener("click", () => {
         window.electronAPI.openPopup(date,customString);
     });
+
     table.appendChild(row);
 
     window.electronAPI.addRecord(date, customString);
@@ -72,7 +73,7 @@ function displayRecordsInTable(records) {
             <td>${record.text}</td>`;
 
         row.addEventListener("click", () => {
-            window.electronAPI.openPopup(date,customString);
+            window.electronAPI.openPopup(record.dateTime,record.text);
         });
         table.appendChild(row);
     });

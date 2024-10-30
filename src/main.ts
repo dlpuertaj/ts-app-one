@@ -38,10 +38,6 @@ const showGenericPopup = () => {
 
 	popup.loadFile('src/popup.html');
 
-	popup.once('ready-to-show', () => {
-		popup?.show();
-	});
-
 	popup.on('closed', () =>{
 		popup = null;
 	} );
@@ -87,12 +83,14 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   return record;
 });
 
-ipcMain.on('open-popup-window', () => {
-	showGenericPopup();
-});
+ipcMain.on('open-popup-window', (event,date,text) => {
 
-export function openPopup(){
 	if(!popup){
 		showGenericPopup();
 	}
-}
+
+	popup?.webContents.once('did-finish-load', () => {
+		popup?.webContents.send('open-popup-data', {date,text});
+	});
+
+});
