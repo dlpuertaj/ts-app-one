@@ -80,9 +80,8 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   console.log(`Saving ${dateTime} and ${text}`);
   record.dateTime = dateTime;
   record.text = text;
-  const savedRecord = await recordRepository.save(record);
-  console.log("Generated Id of the saved record: " + savedRecord.id) 
-  return savedRecord;
+  await recordRepository.save(record);
+  return record;
 });
 
 ipcMain.handle('update-record', async (event, id, dateTime , text) => {

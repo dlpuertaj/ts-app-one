@@ -28,21 +28,15 @@ function addNewButton() {
 
 function genericButtonEventListener(customString) {
 
-    // Save record in database and get the id
     const date = new Date();
     console.log(`Button ${customString} clicked! will show and save ${date} and ${customString}`);
- 
-    const savedRecord = indow.electronAPI.addRecord(date, customString);
-
-    //add the row to the table
     const row = document.createElement("tr");
 
     row.innerHTML = `
-    <td><input type="hidden" id="Record${savedRecord.id}"></td>
-    <td>${savedRecord.date}</td>
-    <td>${savedRecord.text}</td>`;
+    <td>${date}</td>
+    <td>${customString}</td>`;
 
-    row.id = "row"+savedRecord.id;
+    row.id = customString;
     row.className = 'open-popup';
 
     row.addEventListener("click", () => {
@@ -51,6 +45,7 @@ function genericButtonEventListener(customString) {
 
     table.appendChild(row);
 
+    window.electronAPI.addRecord(date, customString);
 }
 
 button.addEventListener('click', addNewButton);
@@ -74,7 +69,6 @@ function displayRecordsInTable(records) {
         row.className = 'open-popup';
 
         row.innerHTML = `
-            <td><input type="hidden" id="record${record.id}"></td>
             <td>${record.dateTime}</td>
             <td>${record.text}</td>`;
 
