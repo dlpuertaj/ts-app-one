@@ -2,7 +2,6 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { AppDataSource } from './database/data_source';
 import { Record } from './entities/Record';
 import * as path from'path';
-import { Equal } from 'typeorm';
 
 let mainWindow: BrowserWindow | null;
 let popup: BrowserWindow | null;
@@ -82,11 +81,6 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   record.text = text;
   await recordRepository.save(record);
   return record;
-});
-
-ipcMain.handle('update-record', async (event, id, dateTime , text) => {
-	const recordRepository = AppDataSource.getRepository(Record);
-	await recordRepository.save({id,dateTime,text});
 });
 
 ipcMain.on('open-popup-window', (event,date,text) => {

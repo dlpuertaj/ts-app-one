@@ -23,12 +23,3 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('Popup loaded and ready to display data');
 });
 
-function updateRecord(){
-
-    
-    window.electronAPI.updateRecord(id, dateTime, text);
-
-}
-
-saveButton.addEventListener('click',updateRecord);
-
