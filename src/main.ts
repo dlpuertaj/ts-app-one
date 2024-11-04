@@ -84,6 +84,13 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   return record;
 });
 
+ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newText:string) => {
+  const recordRepository = AppDataSource.getRepository(Record);
+  await recordRepository.update(id, {dateTime:newDateTime, text:newText});
+  console.log(`Updated ${id}`)
+});
+
+
 ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 	if(!popup){

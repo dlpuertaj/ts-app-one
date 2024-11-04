@@ -25,3 +25,9 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('Popup loaded and ready to display data');
 });
 
+
+function updateRecord(){
+    window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
+}
+
+saveButton.addEventListener('click', updateRecord);
