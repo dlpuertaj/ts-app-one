@@ -26,26 +26,27 @@ function addNewButton() {
 
 }
 
-function genericButtonEventListener(customString) {
+async function genericButtonEventListener(customString) {
 
     const date = new Date();
-    console.log(`Button ${customString} clicked! will show and save ${date} and ${customString}`);
+    const record = await window.electronAPI.addRecord(date, customString);
+    console.log(`Button ${customString} clicked! will show and save ${date} , ${customString} and ${record.id}`);
+
+
     const row = document.createElement("tr");
-
     row.innerHTML = `
-    <td>${date}</td>
-    <td>${customString}</td>`;
+    <td style="display:none;">${record.id}</>
+    <td>${record.dateTime}</td>
+    <td>${record.text}</td>`;
 
-    row.id = customString;
     row.className = 'open-popup';
 
     row.addEventListener("click", () => {
-        window.electronAPI.openPopup(date,customString);
+        window.electronAPI.openPopup(record.id, record.dateTime, record.text);
     });
 
     table.appendChild(row);
 
-    window.electronAPI.addRecord(date, customString);
 }
 
 button.addEventListener('click', addNewButton);
@@ -64,16 +65,18 @@ window.addEventListener('DOMContentLoaded', async () => {
 function displayRecordsInTable(records) {
     console.log("Displaying records in table...");
     records.forEach(record => {
+        console.log(`Record: ${record.id}`);
         const row = document.createElement("tr");
 
         row.className = 'open-popup';
 
         row.innerHTML = `
+            <td style="display:none;">${record.id}</>
             <td>${record.dateTime}</td>
             <td>${record.text}</td>`;
 
         row.addEventListener("click", () => {
-            window.electronAPI.openPopup(record.dateTime,record.text);
+            window.electronAPI.openPopup(record.id,record.dateTime,record.text);
         });
         table.appendChild(row);
     });

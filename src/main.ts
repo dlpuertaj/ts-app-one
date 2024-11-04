@@ -80,17 +80,18 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   record.dateTime = dateTime;
   record.text = text;
   await recordRepository.save(record);
+  console.log(`Saved ${record.id}`)
   return record;
 });
 
-ipcMain.on('open-popup-window', (event,date,text) => {
+ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 	if(!popup){
 		showGenericPopup();
 	}
 
 	popup?.webContents.once('did-finish-load', () => {
-		popup?.webContents.send('open-popup-data', {date,text});
+		popup?.webContents.send('open-popup-data', {id, date,text});
 	});
 
 });

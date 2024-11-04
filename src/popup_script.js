@@ -4,18 +4,20 @@
 const saveButton = document.getElementById('save-button');
 const dateTextField = document.getElementById('popup-input-date');
 const dataTextField = document.getElementById('popup-input-text');
+const hiddenField = document.getElementById('hidden-id');
 
 // Listen for data sent from the main process
-window.electronAPI.onOpenPopupData((event, { date, text }) => {
+window.electronAPI.onOpenPopupData((event, { id, date, text }) => {
     console.log('Will show popup with info...')
-    displayRecord(date, text);
+    displayRecord(id, date, text);
 });
 
 // Function to display the received record data
-function displayRecord(date, text) {
-    console.log('Data to show:' + date + ' - ' + text)
+function displayRecord(id, date, text) {
+    console.log('Data to show:' + id + ' - ' + date + ' - ' + text)
     dateTextField.value = date;
     dataTextField.value = text;
+    hiddenField.value = id;
 }
 
 // Ensure that displayRecord runs when the content is loaded
