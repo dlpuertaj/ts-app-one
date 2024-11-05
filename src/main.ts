@@ -38,10 +38,6 @@ const showGenericPopup = () => {
 
 	popup.loadFile('src/popup.html');
 
-	popup.once('ready-to-show', () => {
-		popup?.show();
-	});
-
 	popup.on('closed', () =>{
 		popup = null;
 	} );
@@ -84,15 +80,25 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
   record.dateTime = dateTime;
   record.text = text;
   await recordRepository.save(record);
+  console.log(`Saved ${record.id}`)
   return record;
 });
 
-ipcMain.on('open-popup-window', () => {
-	showGenericPopup();
+ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newText:string) => {
+  const recordRepository = AppDataSource.getRepository(Record);
+  await recordRepository.update(id, {dateTime:newDateTime, text:newText});
+  console.log(`Updated ${id}`)
 });
 
-export function openPopup(){
+
+ipcMain.on('open-popup-window', (event,id, date, text) => {
+
 	if(!popup){
 		showGenericPopup();
 	}
-}
+
+	popup?.webContents.once('did-finish-load', () => {
+		popup?.webContents.send('open-popup-data', {id, date,text});
+	});
+
+});

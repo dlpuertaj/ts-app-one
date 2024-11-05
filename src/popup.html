@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>My Electron Popup</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-    </head>
-    <body>
-        This is a popup!
-    </body>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <form id="c_form-h" >
+            <div class="form-group row"> <label for="inputmailh" class="col-2 col-form-label">Date</label>
+              <div class="col-10">
+                <input type="text" class="popup-field" id="popup-input-date" placeholder="DD/MM/YYY"> </div>
+            </div>
+            <div class="form-group row"> <label for="inputpasswordh" class="col-2 col-form-label">Record</label>
+              <div class="col-10">
+                <input type="text" class="popup-field" id="popup-input-text" placeholder="Record" > 
+                <input type="hidden" id="hidden-id"></div>
+              </div>
+            <button type="submit" id="save-button" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="popup_script.js"></script>
+</body>
+
 </html>

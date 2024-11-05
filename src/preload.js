@@ -3,14 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
     getRecords: () => ipcRenderer.invoke('get-records'),
     addRecord: (dateTime, text) => ipcRenderer.invoke('add-record',dateTime, text ),
-    openPopup: () => ipcRenderer.send('open-popup-window')
-});
-
-
-const openPopupElements = document.getElementsByClassName('open-popup');
-
-Array.from(openPopupElements).forEach((popup) => {
-    popup.addEventListener('click', () =>{
-        ipcRenderer.send('open-popup-window');
-    });
+    onOpenPopupData: (callback) => ipcRenderer.on('open-popup-data',callback),
+    openPopup: (id, date, text) => ipcRenderer.send('open-popup-window',id, date,text),
+    updateRecord: (id,date,text) => ipcRenderer.invoke('update-record', id, date, text)
 });
