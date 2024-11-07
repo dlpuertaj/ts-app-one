@@ -1,0 +1,64 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text area (upper part) */
+#display-area {
+  flex: 1; /* Makes it take up most of the available space */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  overflow-y: auto; /* Allows scrolling if text overflows */
+  resize: none;
+  font-size: 16px;
+}
+
+#action-button{
+  padding: 15px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+/* Add hover effect for the button */
+#action-button:hover {
+  background-color: #45a049;
+}
+
+#button-container {
+  margin: 20px 0;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures that columns are of fixed width */
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid black;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
