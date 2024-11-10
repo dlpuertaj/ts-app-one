@@ -5,12 +5,41 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeor
 export class Record{
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    private id!: number;
 
     @CreateDateColumn({type:'datetime'})
-    dateTime!: Date;
+    private dateTime!: Date;
 
     @Column()
-    text!: string;
+    private text!: string;
+
+    get getDatabaseId(){
+        if(this.id){
+            return this.id;
+        }
+        throw new Error('No Id found');
+    }
+
+    get createdDateTime(){
+        if(this.dateTime){
+            return this.dateTime;
+        }
+        throw new Error('No date found');
+    }
+ 
+    set setDateTime(dateTime:Date){
+        this.dateTime = dateTime;
+    }
+ 
+    get getText(){
+        if(this.text){
+            return this.text;
+        }
+        throw new Error('No text registered');
+    }
+  
+    set setText(text:string){
+        this.text = text;
+    }
     
 }
