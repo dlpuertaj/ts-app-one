@@ -75,10 +75,7 @@ ipcMain.handle('get-records', async () => {
 
 ipcMain.handle('add-record', async (event, dateTime, text) => {
   const recordRepository = AppDataSource.getRepository(Record);
-  const record = new Record();
-  console.log(`Saving ${dateTime} and ${text}`);
-  record.setDateTime = dateTime;
-  record.setText = text;
+  const record = new Record(dateTime,text);
   await recordRepository.save(record);
   console.log(`Saved ${record.getDatabaseId}`)
   return record;
@@ -86,9 +83,7 @@ ipcMain.handle('add-record', async (event, dateTime, text) => {
 
 ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newText:string) => {
   const recordRepository = AppDataSource.getRepository(Record);
-  const record = new Record();
-  record.setDateTime = newDateTime;
-  record.setText = newText;
+  const record = new Record(newDateTime,newText);
   await recordRepository.update(id, record);
   console.log(`Updated ${id}`)
 });

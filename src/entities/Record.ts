@@ -13,6 +13,11 @@ export class Record{
     @Column()
     private text!: string;
 
+    constructor(dateTume:Date, text:string){
+        this.dateTime = dateTume;
+        this.text = text;
+    }
+
     get getDatabaseId(){
         if(this.id){
             return this.id;
