@@ -88,6 +88,11 @@ ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newTe
   console.log(`Updated ${id}`)
 });
 
+ipcMain.handle('delete-record', async (event, id:number) => {
+  const recordRepository = AppDataSource.getRepository(Record);
+  await recordRepository.delete(id);
+  console.log(`Deleted ${id}`)
+});
 
 ipcMain.on('open-popup-window', (event,id, date, text) => {
 

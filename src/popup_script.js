@@ -2,6 +2,7 @@
 
 
 const saveButton = document.getElementById('save-button');
+const deleteButton = document.getElementById('delete-button');
 const dateTextField = document.getElementById('popup-input-date');
 const dataTextField = document.getElementById('popup-input-text');
 const hiddenField = document.getElementById('hidden-id');
@@ -30,4 +31,8 @@ function updateRecord(){
     window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
 }
 
+function deleteRecord(){
+    window.electronAPI.deleteRecord(hiddenField.value);
+}
 saveButton.addEventListener('click', updateRecord);
+deleteButton.addEventListener('click', deleteRecord);

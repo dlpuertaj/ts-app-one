@@ -5,5 +5,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     addRecord: (dateTime, text) => ipcRenderer.invoke('add-record',dateTime, text ),
     onOpenPopupData: (callback) => ipcRenderer.on('open-popup-data',callback),
     openPopup: (id, date, text) => ipcRenderer.send('open-popup-window',id, date,text),
-    updateRecord: (id,date,text) => ipcRenderer.invoke('update-record', id, date, text)
+    updateRecord: (id,date,text) => ipcRenderer.invoke('update-record', id, date, text),
+    deleteRecord: (id) => ipcRenderer.invoke('delete-record', id)
 });
