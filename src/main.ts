@@ -5,6 +5,7 @@ import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
 let popup: BrowserWindow | null;
+let confirm_popup: BrowserWindow | null;
 
 
 const createWindow = () => {
@@ -42,6 +43,25 @@ const showGenericPopup = () => {
 		popup = null;
 	} );
 };
+
+const showConfirmationPopup = () => {
+	popup = new BrowserWindow({
+		width: 200,
+        height: 200,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'), 
+            contextIsolation: true, 
+            nodeIntegration: false, 
+        },
+	});
+
+	popup.loadFile('src/confirm_popup.html');
+
+	popup.on('closed', () =>{
+		popup = null;
+	} );
+};
+
 
 app.whenReady().then(() => {
 	createWindow();
@@ -102,6 +122,18 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 	popup?.webContents.once('did-finish-load', () => {
 		popup?.webContents.send('open-popup-data', {id, date,text});
+	});
+
+});
+
+ipcMain.on('open-confirmation-popup-window', (event,id, date, text) => {
+
+	if(!popup){
+		showConfirmationPopup();
+	}
+
+	popup?.webContents.once('did-finish-load', () => {
+		popup?.webContents.send('update-records', {id, date,text});
 	});
 
 });
