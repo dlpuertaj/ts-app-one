@@ -105,7 +105,7 @@ ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newTe
   const recordRepository = AppDataSource.getRepository(Record);
   const record = new Record(newDateTime,newText);
   await recordRepository.update(id, record);
-  console.log(`Updated ${id}`)
+  console.log(`Updated ${id}`);
 });
 
 ipcMain.handle('delete-record', async (event, id:number) => {
@@ -126,14 +126,16 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 });
 
-ipcMain.on('open-confirmation-popup-window', (event,id, date, text) => {
+ipcMain.on('open-confirmation-popup-window', (event) => {
 
 	if(!confirmationPopup){
 		showConfirmationPopup();
 	}
 
 	confirmationPopup?.webContents.once('did-finish-load', () => {
-		confirmationPopup?.webContents.send('get-records', {id, date,text});
+		//Remove rows from main table
+		confirmationPopup?.webContents.send('get-records');
 	});
+	
 
 });
