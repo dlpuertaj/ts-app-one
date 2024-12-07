@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function displayRecordsInTable(records) {
+export function displayRecordsInTable(records) {
     console.log("Displaying records in table...");
     records.forEach(record => {
         console.log(`Record: ${record.id}`);
