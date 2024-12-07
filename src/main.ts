@@ -5,7 +5,7 @@ import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
 let popup: BrowserWindow | null;
-let confirmation_popup: BrowserWindow | null;
+let confirmationPopup: BrowserWindow | null;
 
 
 const createWindow = () => {
@@ -45,7 +45,7 @@ const showGenericPopup = () => {
 };
 
 const showConfirmationPopup = () => {
-	confirmation_popup = new BrowserWindow({
+	confirmationPopup = new BrowserWindow({
 		width: 200,
         height: 200,
         webPreferences: {
@@ -55,9 +55,9 @@ const showConfirmationPopup = () => {
         },
 	});
 
-	confirmation_popup.loadFile('src/confirm_popup.html');
+	confirmationPopup.loadFile('src/confirm_popup.html');
 
-	confirmation_popup.on('closed', () =>{
+	confirmationPopup.on('closed', () =>{
 		popup = null;
 	} );
 };
@@ -128,12 +128,12 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 ipcMain.on('open-confirmation-popup-window', (event,id, date, text) => {
 
-	if(!popup){
+	if(!confirmationPopup){
 		showConfirmationPopup();
 	}
 
-	popup?.webContents.once('did-finish-load', () => {
-		popup?.webContents.send('get-records', {id, date,text});
+	confirmationPopup?.webContents.once('did-finish-load', () => {
+		confirmationPopup?.webContents.send('get-records', {id, date,text});
 	});
 
 });

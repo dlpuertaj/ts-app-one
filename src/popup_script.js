@@ -29,6 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function updateRecord(){
     window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
+    window.electronAPI.openConfirmationPopup();
 }
 
 function deleteRecord(){
