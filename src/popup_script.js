@@ -34,6 +34,7 @@ function updateRecord(){
 
 function deleteRecord(){
     window.electronAPI.deleteRecord(hiddenField.value);
+    window.electronAPI.openConfirmationPopup("Eccsessfully deleted record", true);
 }
 saveButton.addEventListener('click', updateRecord);
 deleteButton.addEventListener('click', deleteRecord);
