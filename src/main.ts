@@ -138,3 +138,9 @@ ipcMain.on('open-confirmation-popup-window', (event, message:string, isDeleting:
 	
 
 });
+
+ipcMain.on('close-confirm-popup', () => {
+	if(confirmationPopup){
+		confirmationPopup.close();
+	}
+});

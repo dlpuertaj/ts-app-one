@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     updateRecord: (id,date,text) => ipcRenderer.invoke('update-record', id, date, text),
     deleteRecord: (id) => ipcRenderer.invoke('delete-record', id),
     openConfirmationPopup: (message, isDeleting) => ipcRenderer.send('open-confirmation-popup-window',message,isDeleting),
+    closeConfirmationPopup: () => ipcRenderer.send('close-confirm-popup'),
     onSentConfirmPopupData: (callback) => ipcRenderer.on('send-confirm-popup-data',callback)
 });

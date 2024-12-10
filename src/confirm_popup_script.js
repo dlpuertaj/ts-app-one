@@ -13,6 +13,13 @@ function displayElements(message,isDeleting){
     }
 }
 
+function closePopup(){
+    window.electronAPI.closeConfirmationPopup();
+}
+
+closeButton.addEventListener('click', closePopup);
+continueButton.addEventListener('click', closePopup);
+
 window.electronAPI.onSentConfirmPopupData((event, { message, isDeleting }) => {
     console.log('Will show popup with info...')
     displayElements(message, isDeleting);
@@ -22,7 +29,5 @@ window.electronAPI.onSentConfirmPopupData((event, { message, isDeleting }) => {
 // Ensure that displayRecord runs when the content is loaded
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Confirmation Popup loaded and ready to display data');
-
-
 });
 
