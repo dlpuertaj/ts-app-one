@@ -10,6 +10,10 @@ function displayElements(message,isDeleting){
     confirmText.innerHTML = message;
     if(isDeleting){
         continueButton.hidden = true;
+        closeButton.addEventListener('click', () => {
+            window.electronAPI.closeConfirmationPopup();
+            window.electronAPI.closePopup();
+        });
     }
 }
 
@@ -17,7 +21,6 @@ function closePopup(){
     window.electronAPI.closeConfirmationPopup();
 }
 
-closeButton.addEventListener('click', closePopup);
 continueButton.addEventListener('click', closePopup);
 
 window.electronAPI.onSentConfirmPopupData((event, { message, isDeleting }) => {

@@ -126,6 +126,15 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 });
 
+ipcMain.on('close-popup', () => {
+
+	if(popup){
+		popup.close();
+	}
+
+});
+
+
 ipcMain.on('open-confirmation-popup-window', (event, message:string, isDeleting:boolean) => {
 
 	if(!confirmationPopup){
