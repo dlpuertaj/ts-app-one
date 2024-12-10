@@ -5,6 +5,7 @@ import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
 let popup: BrowserWindow | null;
+let confirmationPopup: BrowserWindow | null;
 
 
 const createWindow = () => {
@@ -42,6 +43,25 @@ const showGenericPopup = () => {
 		popup = null;
 	} );
 };
+
+const showConfirmationPopup = () => {
+	confirmationPopup = new BrowserWindow({
+		width: 200,
+        height: 200,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'), 
+            contextIsolation: true, 
+            nodeIntegration: false, 
+        },
+	});
+
+	confirmationPopup.loadFile('src/confirm_popup.html');
+
+	confirmationPopup.on('closed', () =>{
+		popup = null;
+	} );
+};
+
 
 app.whenReady().then(() => {
 	createWindow();
@@ -85,7 +105,7 @@ ipcMain.handle('update-record', async (event, id:number, newDateTime:Date, newTe
   const recordRepository = AppDataSource.getRepository(Record);
   const record = new Record(newDateTime,newText);
   await recordRepository.update(id, record);
-  console.log(`Updated ${id}`)
+  console.log(`Updated ${id}`);
 });
 
 ipcMain.handle('delete-record', async (event, id:number) => {
@@ -104,4 +124,32 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 		popup?.webContents.send('open-popup-data', {id, date,text});
 	});
 
+});
+
+ipcMain.on('close-popup', () => {
+
+	if(popup){
+		popup.close();
+	}
+
+});
+
+
+ipcMain.on('open-confirmation-popup-window', (event, message:string, isDeleting:boolean) => {
+
+	if(!confirmationPopup){
+		showConfirmationPopup();
+	}
+
+	confirmationPopup?.webContents.once('did-finish-load', () => {
+		confirmationPopup?.webContents.send('send-confirm-popup-data',{message,isDeleting});
+	});
+	
+
+});
+
+ipcMain.on('close-confirm-popup', () => {
+	if(confirmationPopup){
+		confirmationPopup.close();
+	}
 });

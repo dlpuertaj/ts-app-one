@@ -29,10 +29,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function updateRecord(){
     window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
+    window.electronAPI.openConfirmationPopup("Succsessfully updated the record", false);
 }
 
 function deleteRecord(){
     window.electronAPI.deleteRecord(hiddenField.value);
+    window.electronAPI.openConfirmationPopup("Succsessfully deleted the record", true);
 }
+
 saveButton.addEventListener('click', updateRecord);
 deleteButton.addEventListener('click', deleteRecord);
