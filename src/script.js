@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.info(`${records.length} records found`);
         displayRecordsInTable(records);
     } catch (error) {
-        console.error('Error while calling electronAPI to fetch records'.error);
+        console.error('Error while calling electronAPI to fetch records',error);
     }
 });
 

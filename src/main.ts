@@ -126,15 +126,14 @@ ipcMain.on('open-popup-window', (event,id, date, text) => {
 
 });
 
-ipcMain.on('open-confirmation-popup-window', (event) => {
+ipcMain.on('open-confirmation-popup-window', (event, message:string, isDeleting:boolean) => {
 
 	if(!confirmationPopup){
 		showConfirmationPopup();
 	}
 
 	confirmationPopup?.webContents.once('did-finish-load', () => {
-		//Remove rows from main table
-		confirmationPopup?.webContents.send('get-records');
+		confirmationPopup?.webContents.send('send-confirm-popup-data',{message,isDeleting});
 	});
 	
 
