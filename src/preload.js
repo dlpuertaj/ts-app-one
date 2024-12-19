@@ -19,6 +19,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     closeConfirmationPopup: () => ipcRenderer.send('close-confirm-popup'),
     onSentConfirmPopupData: (callback) => ipcRenderer.on('send-confirm-popup-data',callback),
 
-    updateMainTable: (recordTable) => ipcRenderer.send('update-main-table', recordTable),
-    requestTableData: (recordTable) => ipcRenderer.send('get-table-data', recordTable)
+    removeTableRows: () => ipcRenderer.send('remove-table-rows'),
+    onRemoveTableRows: (callback) => ipcRenderer.on('remove-table-rows',callback)
 });

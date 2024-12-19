@@ -170,20 +170,11 @@ ipcMain.on('close-confirm-popup', () => {
 	}
 });
 
-ipcMain.on('update-table', (event, data) => {
+/**
+ * From the popup window, remove rows of the main table in the main window
+ */
+ipcMain.on('remove-table-rows', (event) => {
 	if(mainWindow){
-		mainWindow.webContents.send('update-table-in-main',data);
+		mainWindow.webContents.send('remove-table-rows');
 	}
 });
-
-ipcMain.handle('get-table-data', async () =>{
-	if(mainWindow){
-		const tableData = await mainWindow.webContents.executeJavaScript(
-			`(() => {
-				const table = document.getElementById('records-table');
-				return table.innerHTML;      
-			})
-		);
-	}
-});'
-
