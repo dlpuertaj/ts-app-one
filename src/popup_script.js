@@ -29,6 +29,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function updateRecord(){
     window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
+    console.info('Removing rows')
+    window.electronAPI.removeTableRows();
+    console.info('Opening confirmation popup')
+
     window.electronAPI.openConfirmationPopup("Succsessfully updated the record", false);
 }
 
