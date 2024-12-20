@@ -82,3 +82,13 @@ function displayRecordsInTable(records) {
     });
 }
 
+window.electronAPI.onRemoveTableRows(() =>{
+    const table = document.getElementById('records-table');
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
+    console.log('Table rows removed');
+    console.log('Fetching records again...');
+    window.electronAPI.getRecords().then(records => displayRecordsInTable(records));
+});
+

@@ -29,11 +29,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function updateRecord(){
     window.electronAPI.updateRecord(hiddenField.value, dateTextField.value, dataTextField.value);
+    console.info('Removing rows')
+    window.electronAPI.removeTableRows();
+    console.info('Opening confirmation popup')
+
     window.electronAPI.openConfirmationPopup("Succsessfully updated the record", false);
 }
 
 function deleteRecord(){
+    console.info('Deleteing record')
     window.electronAPI.deleteRecord(hiddenField.value);
+    console.info('Removing rows')
+    window.electronAPI.removeTableRows();
+    console.info('Opening confirmation popup')
     window.electronAPI.openConfirmationPopup("Succsessfully deleted the record", true);
 }
 

@@ -8,6 +8,10 @@ let popup: BrowserWindow | null;
 let confirmationPopup: BrowserWindow | null;
 
 
+/**
+ * Used to create the main window. BrowserWindow can only be created 
+ * after the 'app' module's 'ready' event is fired.
+ */
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -25,6 +29,23 @@ const createWindow = () => {
 	} );
 
 };
+
+app.whenReady().then(() => {
+	createWindow();
+});
+
+app.on('window-all-closed', () => {
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
+});
+
+app.on('activate', () => {
+	if (mainWindow === null) {
+		createWindow();
+	}
+});
+
 
 const showGenericPopup = () => {
 	popup = new BrowserWindow({
@@ -62,23 +83,18 @@ const showConfirmationPopup = () => {
 	} );
 };
 
-
-app.whenReady().then(() => {
-	createWindow();
-});
-
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
-		app.quit();
-	}
-});
-
-app.on('activate', () => {
-	if (mainWindow === null) {
-		createWindow();
-	}
-});
-
+/********************************************************************************** 
+ * ipcMain is an Electron module used for Inter-process communication (IPC).
+ * It is used to handle asynchronous and synchronous messages sent from 
+ * the renderer processes (web pages) to the main process.
+ * 
+ * ipcMain.handle(channel, listener): Registers a handler for an asynchronous 
+ * message sent from a renderer process. The handler function can return a promise or a value.
+ * 
+ * ipcMain.on(channel, listener): Registers a handler for a synchronous or asynchronous 
+ * message sent from a renderer process. The handler function can perform actions 
+ * based on the message received.
+ * ********************************************************************************/
 
 ipcMain.handle('get-records', async () => {
 	console.info(`Will try to fetche records from database...`);
@@ -151,5 +167,14 @@ ipcMain.on('open-confirmation-popup-window', (event, message:string, isDeleting:
 ipcMain.on('close-confirm-popup', () => {
 	if(confirmationPopup){
 		confirmationPopup.close();
+	}
+});
+
+/**
+ * From the popup window, remove rows of the main table in the main window
+ */
+ipcMain.on('remove-table-rows', (event) => {
+	if(mainWindow){
+		mainWindow.webContents.send('remove-table-rows');
 	}
 });
