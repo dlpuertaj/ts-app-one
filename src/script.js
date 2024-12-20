@@ -88,5 +88,7 @@ window.electronAPI.onRemoveTableRows(() =>{
         table.deleteRow(0);
     }
     console.log('Table rows removed');
+    console.log('Fetching records again...');
+    window.electronAPI.getRecords().then(records => displayRecordsInTable(records));
 });
 
