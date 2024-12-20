@@ -1,7 +1,5 @@
 "use strict";
 
-const { ipcRenderer } = require("electron");
-
 
 const saveButton = document.getElementById('save-button');
 const deleteButton = document.getElementById('delete-button');
@@ -35,8 +33,11 @@ function updateRecord(){
 }
 
 function deleteRecord(){
+    console.info('Deleteing record')
     window.electronAPI.deleteRecord(hiddenField.value);
-    ipcRenderer.send('remove-table-rows');
+    console.info('Removing rows')
+    window.electronAPI.removeTableRows();
+    console.info('Opening confirmation popup')
     window.electronAPI.openConfirmationPopup("Succsessfully deleted the record", true);
 }
 
