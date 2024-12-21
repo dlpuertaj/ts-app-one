@@ -11,6 +11,7 @@ let buttonCount = 0;
 
 function addNewButton() {
 
+    //Create a new button
     console.log(`Adding a new button`);
     buttonCount++;
 
@@ -20,10 +21,18 @@ function addNewButton() {
     newButton.id = `button-${buttonCount}`;
 
     console.log(`New button id: ${newButton.id}`)
-    newButton.addEventListener('click', () => genericButtonEventListener(newButton.id));
+    newButton.addEventListener('click', () => genericButtonEventListener(newButton.id+" Text"));
 
     buttonContainer.appendChild(newButton);
 
+    //Save the button in teh database
+    saveButton(newButton.id, newButton.id + "Text");
+
+}
+
+async function saveButton(name, text) {
+    const savedButton = await window.electronAPI.saveButton(name, text);
+    console.log(`Saved button ${savedButton.name} with text ${savedButton.text}`);
 }
 
 async function genericButtonEventListener(customString) {
@@ -57,6 +66,17 @@ window.addEventListener('DOMContentLoaded', async () => {
         const records = await window.electronAPI.getRecords();
         console.info(`${records.length} records found`);
         displayRecordsInTable(records);
+
+        const buttons = await window.electronAPI.getButtons();
+        console.info(`${buttons.length} buttons found`);
+        buttons.forEach(button => {
+            console.log(`Button: ${button.name} with text ${button.text}`);
+            const newButton = document.createElement('button');
+            newButton.textContent= button.name
+            newButton.id = `button-${button.id}`;
+            newButton.addEventListener('click', () => genericButtonEventListener(newButton.id + " Text"));
+            buttonContainer.appendChild(newButton);
+        });
     } catch (error) {
         console.error('Error while calling electronAPI to fetch records',error);
     }

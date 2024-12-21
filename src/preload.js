@@ -20,5 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onSentConfirmPopupData: (callback) => ipcRenderer.on('send-confirm-popup-data',callback),
 
     removeTableRows: () => ipcRenderer.send('remove-table-rows'),
-    onRemoveTableRows: (callback) => ipcRenderer.on('remove-table-rows',callback)
+    onRemoveTableRows: (callback) => ipcRenderer.on('remove-table-rows',callback),
+
+    getButtons: () => ipcRenderer.invoke('get-buttons'),
+    saveButton: (name, text) => ipcRenderer.invoke('save-button',name, text)
 });

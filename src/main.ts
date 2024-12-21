@@ -132,9 +132,9 @@ ipcMain.handle('delete-record', async (event, id:number) => {
 });
 
 
-/**
+/********************************************************************
  * Button CRUD operations
- */
+ ********************************************************************/
 
 ipcMain.handle('get-buttons', async () => {
 	console.info(`Will try to fetche buttons from database...`);
