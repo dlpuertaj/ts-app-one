@@ -1,12 +1,13 @@
 import { DataSource } from "typeorm";
 import { Record } from "../entities/Record";
+import { Button } from "../entities/Button";
 
 const AppDataSource = new DataSource({
     type:"sqlite",
     database:"database.sqlite",
     synchronize:true,
     logging: false,
-    entities:[Record],
+    entities:[Record, Button],
 });
 
 // You can define as many data sources as you nedd in your application

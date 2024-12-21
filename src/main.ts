@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { AppDataSource } from './database/data_source';
 import { Record } from './entities/Record';
+import { Button } from './entities/Button';
 import * as path from'path';
 
 let mainWindow: BrowserWindow | null;
@@ -129,6 +130,33 @@ ipcMain.handle('delete-record', async (event, id:number) => {
   await recordRepository.delete(id);
   console.log(`Deleted ${id}`)
 });
+
+
+/********************************************************************
+ * Button CRUD operations
+ ********************************************************************/
+
+ipcMain.handle('get-buttons', async () => {
+	console.info(`Will try to fetche buttons from database...`);
+	try{
+  		const buttonRepository = AppDataSource.getRepository(Button);
+  		const buttons = await buttonRepository.find();
+		console.info(`${buttons.length} buttons fetched successfully`);
+  		return buttons;
+	}catch(error){
+		console.error('Error while fetching buttons');
+		return [];
+	}
+});
+
+ipcMain.handle('save-button', async (event,name, text) => {
+	const buttonRepository = AppDataSource.getRepository(Button);
+	const button = new Button(name,text);
+	await buttonRepository.save(button);
+	return button;
+});
+
+
 
 ipcMain.on('open-popup-window', (event,id, date, text) => {
 
